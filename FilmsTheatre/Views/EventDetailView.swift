@@ -2,8 +2,8 @@ import SwiftUI
 
 struct EventDetailView: View {
     let event: Event
-    @State private var isFavorite: Bool = false // Локальное состояние избранного
-    @EnvironmentObject var favoritesManager: FavoritesManager // Менеджер избранных
+    @State private var isFavorite: Bool = false
+    @EnvironmentObject var favoritesManager: FavoritesManager
 
     var body: some View {
         ScrollView {
