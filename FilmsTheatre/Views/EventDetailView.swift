@@ -64,8 +64,7 @@ struct EventDetailView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.blue, lineWidth: 1)
                             )
-                    }
-                    .padding(.top, 10)
+                    } 
                 }
             }
             .padding()

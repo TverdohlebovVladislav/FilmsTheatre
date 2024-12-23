@@ -15,6 +15,7 @@ struct MainContentView: View {
                     moviesSection
                     allMoviesButton
                     eventsSection
+                    allEventsButton // Добавляем кнопку для спектаклей
                 }
             }
             .navigationTitle("Афиша")
@@ -23,7 +24,7 @@ struct MainContentView: View {
             }
         }
     }
-    
+
     // Раздел фильмов
     private var moviesSection: some View {
         VStack(alignment: .leading) {
@@ -78,6 +79,20 @@ struct MainContentView: View {
         }
     }
 
+    // Кнопка "Смотреть все спектакли"
+    private var allEventsButton: some View {
+        NavigationLink(destination: EventListView(events: events)) {
+            Text("Смотреть все спектакли")
+                .font(.headline)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding(.horizontal)
+        }
+    }
+
     // Карточка фильма
     private func movieCard(_ movie: Movie) -> some View {
         VStack {
@@ -105,15 +120,14 @@ struct MainContentView: View {
                 } placeholder: {
                     Color.gray
                 }
-                .frame(width: 120, height: 180)
+                .frame(width: 150, height: 225)
                 .cornerRadius(10)
                 
                 Text(event.name)
                     .font(.caption)
-                    .lineLimit(2)
-                    .frame(width: 120)
-                    .multilineTextAlignment(.center)
-                
+                    .lineLimit(1)
+                    .frame(maxWidth: 150)
+
                 if let date = event.startDate {
                     Text(date)
                         .font(.caption2)
