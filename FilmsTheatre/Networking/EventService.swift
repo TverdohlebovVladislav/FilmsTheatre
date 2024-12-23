@@ -41,26 +41,23 @@ class EventService {
     }
     
     private func filterUniqueEvents(events: [Event]) -> [Event] {
-        var groupedEvents = [String: Event]() // Храним уникальные события по имени
+        var groupedEvents = [String: Event]()  
         
         for event in events {
             let eventName = event.name
-            
-            // Проверяем, есть ли уже событие с таким именем
+             
             if let existingEvent = groupedEvents[eventName] {
-                // Сравниваем даты и оставляем ближайшую
                 if let existingDate = existingEvent.startDate,
                    let newDate = event.startDate,
                    newDate < existingDate {
                     groupedEvents[eventName] = event
                 }
             } else {
-                // Если событие с таким именем ещё не добавлено
                 groupedEvents[eventName] = event
             }
         }
         
-        return Array(groupedEvents.values) // Возвращаем уникальные события
+        return Array(groupedEvents.values)
     }
 }
 

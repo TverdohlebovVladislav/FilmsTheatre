@@ -1,10 +1,3 @@
-//
-//  FilmsTheatreTests.swift
-//  FilmsTheatreTests
-//
-//  Created by Tverdokhlebov Vladislav on 22.12.2024.
-//
-
 import Testing
 @testable import FilmsTheatre
 

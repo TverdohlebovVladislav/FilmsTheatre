@@ -1,10 +1,3 @@
-//
-//  Persistence.swift
-//  FilmsTheatre
-//
-//  Created by Tverdokhlebov Vladislav on 22.12.2024.
-//
-
 import CoreData
 
 struct PersistenceController {
