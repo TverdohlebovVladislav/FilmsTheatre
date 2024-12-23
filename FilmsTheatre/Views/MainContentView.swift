@@ -98,30 +98,27 @@ struct MainContentView: View {
 
     // Карточка мероприятия
     private func eventCard(_ event: Event) -> some View {
-        VStack {
-            AsyncImage(url: URL(string: event.imageUrl ?? "")) { image in
-                image.resizable().aspectRatio(contentMode: .fill)
-            } placeholder: {
-                Color.gray
-            }
-            .frame(width: 120, height: 180)
-            .cornerRadius(10)
-            
-            Text(event.name)
-                .font(.caption)
-                .lineLimit(2)
-                .frame(width: 120)
-                .multilineTextAlignment(.center)
-            
-            if let date = event.startDate {
-                Text(date)
-                    .font(.caption2)
-                    .foregroundColor(.gray)
-            }
-        }
-        .onTapGesture {
-            if let url = event.eventUrl, let eventURL = URL(string: url) {
-                UIApplication.shared.open(eventURL)
+        NavigationLink(destination: EventDetailView(event: event)) {
+            VStack {
+                AsyncImage(url: URL(string: event.imageUrl ?? "")) { image in
+                    image.resizable().aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Color.gray
+                }
+                .frame(width: 120, height: 180)
+                .cornerRadius(10)
+                
+                Text(event.name)
+                    .font(.caption)
+                    .lineLimit(2)
+                    .frame(width: 120)
+                    .multilineTextAlignment(.center)
+                
+                if let date = event.startDate {
+                    Text(date)
+                        .font(.caption2)
+                        .foregroundColor(.gray)
+                }
             }
         }
     }

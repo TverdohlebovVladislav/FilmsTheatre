@@ -1,6 +1,6 @@
 import Foundation
 
-struct Event: Decodable {
+struct Event: Decodable, Encodable { // Добавлен протокол Encodable
     let id: String
     let name: String
     let imageUrl: String?
@@ -33,6 +33,7 @@ struct Event: Decodable {
         case localDate
     }
     
+    // Преобразование данных из JSON
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -40,7 +41,7 @@ struct Event: Decodable {
         name = try container.decode(String.self, forKey: .name)
         eventUrl = try container.decodeIfPresent(String.self, forKey: .url)
         
-        // Decode first image URL
+        // Декодируем URL изображения
         if let images = try? container.decodeIfPresent([Image].self, forKey: .images),
            let firstImage = images.first {
             imageUrl = firstImage.url
@@ -48,7 +49,7 @@ struct Event: Decodable {
             imageUrl = nil
         }
         
-        // Decode start date
+        // Декодируем дату начала
         if let dates = try? container.nestedContainer(keyedBy: DatesKeys.self, forKey: .dates),
            let start = try? dates.nestedContainer(keyedBy: StartKeys.self, forKey: .start) {
             startDate = try start.decodeIfPresent(String.self, forKey: .localDate)
@@ -56,7 +57,7 @@ struct Event: Decodable {
             startDate = nil
         }
         
-        // Decode venue name
+        // Декодируем название места проведения
         if let embedded = try? container.nestedContainer(keyedBy: EmbeddedKeys.self, forKey: .embedded),
            let venues = try? embedded.decodeIfPresent([Venue].self, forKey: .venues),
            let firstVenue = venues.first {
@@ -65,13 +66,22 @@ struct Event: Decodable {
             venueName = nil
         }
     }
+    
+    // Кодирование данных в JSON
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(eventUrl, forKey: .url)
+        try container.encodeIfPresent(imageUrl, forKey: .images)
+        try container.encodeIfPresent(startDate, forKey: .dates)
+    }
 }
 
-struct Venue: Decodable {
+struct Venue: Decodable, Encodable {
     let name: String
 }
 
-struct Image: Decodable {
+struct Image: Decodable, Encodable {
     let url: String
 }
-
