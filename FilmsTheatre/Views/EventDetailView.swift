@@ -12,7 +12,7 @@ struct EventDetailView: View {
                 if let imageUrl = event.imageUrl, let url = URL(string: imageUrl) {
                     AsyncImage(url: url) { image in
                         image.resizable()
-                            .aspectRatio(contentMode: .fill)
+                            .aspectRatio(contentMode: .fit)
                     } placeholder: {
                         Color.gray
                     }
@@ -42,12 +42,11 @@ struct EventDetailView: View {
 
                 // Кнопка добавления в избранное
                 Button(action: {
-//                    favoritesManager.toggleFavorite(event)
-                    isFavorite.toggle()
+                    favoritesManager.toggleFavoriteEvent(event)
                 }) {
-                    Text(isFavorite ? "Удалить из избранного" : "Добавить в избранное")
+                    Text(favoritesManager.isFavoriteEvent(event) ? "Удалить из избранного" : "Добавить в избранное")
                         .padding()
-                        .background(isFavorite ? Color.red : Color.blue)
+                        .background(favoritesManager.isFavoriteEvent(event) ? Color.red : Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }

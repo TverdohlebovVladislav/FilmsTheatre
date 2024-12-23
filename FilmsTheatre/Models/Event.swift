@@ -1,6 +1,6 @@
 import Foundation
 
-struct Event: Decodable, Encodable { // Добавлен протокол Encodable
+struct Event: Identifiable, Codable{ // Добавлен протокол Encodable
     let id: String
     let name: String
     let imageUrl: String?

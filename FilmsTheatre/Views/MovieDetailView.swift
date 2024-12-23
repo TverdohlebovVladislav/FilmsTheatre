@@ -30,13 +30,12 @@ struct MovieDetailView: View {
                     .font(.headline)
                     .foregroundColor(.orange)
 
-                // Кнопка добавления или удаления из избранного
                 Button(action: {
-                    favoritesManager.toggleFavorite(movie)
+                    favoritesManager.toggleFavoriteMovie(movie)
                 }) {
-                    Text(favoritesManager.isFavorite(movie) ? "Удалить из избранного" : "Добавить в избранное")
+                    Text(favoritesManager.isFavoriteMovie(movie) ? "Удалить из избранного" : "Добавить в избранное")
                         .padding()
-                        .background(favoritesManager.isFavorite(movie) ? Color.red : Color.blue)
+                        .background(favoritesManager.isFavoriteMovie(movie) ? Color.red : Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
