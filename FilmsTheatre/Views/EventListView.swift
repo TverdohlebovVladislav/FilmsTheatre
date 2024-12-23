@@ -43,8 +43,7 @@ struct EventListView: View {
         }
     }
 
-    private func loadVenues() {
-        // Загружаем список театров из событий
+    private func loadVenues() { 
         let allVenues = Set(events.compactMap { $0.venueName })
         venues = Array(allVenues).sorted()
     }
