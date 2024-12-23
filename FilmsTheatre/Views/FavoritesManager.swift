@@ -1,38 +1,70 @@
 import Foundation
 
 class FavoritesManager: ObservableObject {
-    @Published var favorites: [Movie] = [] {
+    @Published var favoriteMovies: [Movie] = [] {
         didSet {
-            saveFavorites() // Сохраняем при каждом изменении
+            saveMovies()
+        }
+    }
+
+    @Published var favoriteEvents: [Event] = [] {
+        didSet {
+            saveEvents()
         }
     }
 
     init() {
-        loadFavorites() // Загружаем при инициализации
+        loadMovies()
+        loadEvents()
     }
 
-    private func saveFavorites() {
-        if let encoded = try? JSONEncoder().encode(favorites) {
-            UserDefaults.standard.set(encoded, forKey: "favorites")
+    private func saveMovies() {
+        if let encoded = try? JSONEncoder().encode(favoriteMovies) {
+            UserDefaults.standard.set(encoded, forKey: "favoriteMovies")
         }
     }
 
-    private func loadFavorites() {
-        if let data = UserDefaults.standard.data(forKey: "favorites"),
+    private func saveEvents() {
+        if let encoded = try? JSONEncoder().encode(favoriteEvents) {
+            UserDefaults.standard.set(encoded, forKey: "favoriteEvents")
+        }
+    }
+
+    private func loadMovies() {
+        if let data = UserDefaults.standard.data(forKey: "favoriteMovies"),
            let decoded = try? JSONDecoder().decode([Movie].self, from: data) {
-            favorites = decoded
+            favoriteMovies = decoded
         }
     }
 
-    func toggleFavorite(_ movie: Movie) {
-        if favorites.contains(where: { $0.id == movie.id }) {
-            favorites.removeAll { $0.id == movie.id }
+    private func loadEvents() {
+        if let data = UserDefaults.standard.data(forKey: "favoriteEvents"),
+           let decoded = try? JSONDecoder().decode([Event].self, from: data) {
+            favoriteEvents = decoded
+        }
+    }
+
+    func toggleFavoriteMovie(_ movie: Movie) {
+        if favoriteMovies.contains(where: { $0.id == movie.id }) {
+            favoriteMovies.removeAll { $0.id == movie.id }
         } else {
-            favorites.append(movie)
+            favoriteMovies.append(movie)
         }
     }
 
-    func isFavorite(_ movie: Movie) -> Bool {
-        favorites.contains(where: { $0.id == movie.id })
+    func toggleFavoriteEvent(_ event: Event) {
+        if favoriteEvents.contains(where: { $0.id == event.id }) {
+            favoriteEvents.removeAll { $0.id == event.id }
+        } else {
+            favoriteEvents.append(event)
+        }
+    }
+
+    func isFavoriteMovie(_ movie: Movie) -> Bool {
+        favoriteMovies.contains(where: { $0.id == movie.id })
+    }
+
+    func isFavoriteEvent(_ event: Event) -> Bool {
+        favoriteEvents.contains(where: { $0.id == event.id })
     }
 }
