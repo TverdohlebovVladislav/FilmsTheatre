@@ -1,12 +1,13 @@
 import Foundation
 
-struct Event: Identifiable, Codable{ // Добавлен протокол Encodable
+struct Event: Identifiable, Codable {
     let id: String
     let name: String
     let imageUrl: String?
     let startDate: String?
     let eventUrl: String?
-    let venueName: String? // Добавляем название места проведения
+    let countryCode: String 
+    let venueName: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -65,23 +66,38 @@ struct Event: Identifiable, Codable{ // Добавлен протокол Encoda
         } else {
             venueName = nil
         }
+        
+        // Инициализация countryCode (можно указать значение по умолчанию, если оно отсутствует в ответе)
+        countryCode = "US" // Или получите значение из другого поля, если оно доступно в JSON
     }
-    
+
     // Кодирование данных в JSON
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(eventUrl, forKey: .url)
-        try container.encodeIfPresent(imageUrl, forKey: .images)
-        try container.encodeIfPresent(startDate, forKey: .dates)
+        
+        // Кодируем изображение
+        if let imageUrl = imageUrl {
+            try container.encode([Image(url: imageUrl)], forKey: .images)
+        }
+        
+        // Кодируем дату начала
+        if let startDate = startDate {
+            try container.encode([DateInfo(localDate: startDate)], forKey: .dates)
+        }
     }
 }
 
-struct Venue: Decodable, Encodable {
+struct Venue: Codable {
     let name: String
 }
 
-struct Image: Decodable, Encodable {
+struct Image: Codable {
     let url: String
+}
+
+struct DateInfo: Codable {
+    let localDate: String
 }

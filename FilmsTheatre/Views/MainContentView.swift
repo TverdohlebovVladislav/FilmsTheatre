@@ -79,7 +79,6 @@ struct MainContentView: View {
         }
     }
 
-    // Кнопка "Смотреть все спектакли"
     private var allEventsButton: some View {
         NavigationLink(destination: EventListView(events: events)) {
             Text("Смотреть все спектакли")
